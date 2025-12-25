@@ -1,4 +1,4 @@
-// Pokemon list
+// List response
 export interface PokemonListResponse {
     count: number;
     next: string | null;
@@ -11,8 +11,8 @@ export interface PokemonBasic {
     url: string;
 }
 
-// Details of an individual Pokémon
-export interface PokemonApi {
+// Details pokemon
+export interface Pokemon {
     id: number;
     name: string;
     height: number;
@@ -25,26 +25,12 @@ export interface PokemonApi {
             }
         }
     };
-    types: PokemonApiType[];
-    stats: PokemonApiStat[];
+    types: PokemonType[];
 }
 
-export interface PokemonApiType {
+export interface PokemonType {
     slot: number;
     type: {
         name: string;
-    };
-}
-
-export interface PokemonApiStat {
-    base_stat: number;
-    stat: {
-        name:
-        | 'hp'
-        | 'attack'
-        | 'defense'
-        | 'special-attack'
-        | 'special-defense'
-        | 'speed'
     };
 }
