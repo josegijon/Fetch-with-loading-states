@@ -1,1 +1,7 @@
-// Lista de resultados
+export const DataList = () => {
+    return (
+        <div>
+            DataList
+        </div>
+    )
+}
