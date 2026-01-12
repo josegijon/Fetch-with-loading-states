@@ -26,11 +26,33 @@ export interface Pokemon {
         }
     };
     types: PokemonType[];
+    stats: PokemonStat[];
 }
 
 export interface PokemonType {
     slot: number;
     type: {
         name: string;
+    };
+}
+
+export interface PokemonStat {
+    base_stat: number;
+    stat: {
+        name: string;
+    };
+}
+
+export interface PokemonWithDetails {
+    id: number;
+    name: string;
+    height: number;
+    weight: number;
+    sprite: string;
+    types: string[];
+    stats: {
+        hp: number;
+        attack: number;
+        defense: number;
     };
 }
