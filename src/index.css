@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
 .bg-gradient {
-  @apply bg-linear-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen flex items-center justify-center p-4 text-white;
+  /* @apply bg-linear-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen flex items-center justify-center p-4 text-white; */
+  @apply bg-[#0f172a] min-h-screen flex items-center justify-center p-4 text-[#f1f5f9];
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.stat-bar-bg {
+  @apply h-2 w-full bg-slate-900/50 rounded-full overflow-hidden;
+}
+
+.stat-bar-fill {
+  @apply h-full rounded-full transition-all duration-500;
+}
+
+.glass-ui {
+  @apply bg-white/5 backdrop-blur-sm border border-white/10;
 }
