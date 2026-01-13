@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { DataList } from "./DataList"
 import type { PokemonBasic, PokemonWithDetails } from "../types/pokemon.types";
 import { fetchPokemonDetails } from "../utils/pokemonApi";
+import { LoadingSkeleton } from "./LoadingSkeleton";
 
 export const PokemonApp = () => {
     const [pokemons, setPokemons] = useState<PokemonWithDetails[]>([]);
@@ -40,7 +41,24 @@ export const PokemonApp = () => {
         fetchPokemons();
     }, [])
 
-    if (loading) return <p>Loading...</p>
+    if (loading) {
+        return (
+            <div className="bg-gradient flex-col gap-4">
+                <div className="flex flex-col items-center gap-3">
+                    <h1 className="text-4xl font-bold text-center mb-8">
+                        Pokédex Explorer
+                    </h1>
+
+                    <p className="text-lg font-thin">
+                        Explore and search through hundreds of Pokémon
+                    </p>
+
+                    <LoadingSkeleton />
+                </div>
+            </div>
+        );
+    }
+
     if (error) return <p>Error: {error}</p>
 
     return (
