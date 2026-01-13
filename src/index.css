@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 .bg-gradient {
-  /* @apply bg-linear-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen flex items-center justify-center p-4 text-white; */
   @apply bg-[#0f172a] min-h-screen flex items-center justify-center p-4 text-[#f1f5f9];
 }
 
@@ -17,6 +16,28 @@
   @apply h-full rounded-full transition-all duration-500;
 }
 
-.glass-ui {
-  @apply bg-white/5 backdrop-blur-sm border border-white/10;
+.skeleton-shimmer {
+  @apply relative overflow-hidden bg-[#334155];
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.05) 20%,
+      rgba(255, 255, 255, 0.1) 60%,
+      rgba(255, 255, 255, 0));
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
