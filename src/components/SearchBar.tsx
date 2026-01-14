@@ -22,7 +22,7 @@ export const SearchBar = ({ placeholder = 'Search Pokemon', onQuery }: Props) =>
         return () => {
             clearTimeout(timeoutId);
         };
-    }, [query, onQuery]);
+    }, [query]);
 
     const handleSearch = () => {
         onQuery(query);

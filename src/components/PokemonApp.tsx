@@ -18,6 +18,8 @@ export const PokemonApp = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pokemonsPerPage] = useState(20);
     const [pokemonCache, setPokemonCache] = useState<Map<string, PokemonWithDetails>>(new Map());
+    const [searchResults, setSearchResults] = useState<PokemonWithDetails[]>([]);
+    const [searchPage, setSearchPage] = useState(1);
 
     const fetchPokemonNames = async () => {
         try {
@@ -96,7 +98,7 @@ export const PokemonApp = () => {
 
     // Cambio de página (solo si no hay búsqueda)
     useEffect(() => {
-        if (allPokemonNames.length > 0 && !searchQuery && currentPage > 1) {
+        if (allPokemonNames.length > 0 && !searchQuery) {
             fetchPagePokemons(currentPage, allPokemonNames);
         }
     }, [currentPage, allPokemonNames, fetchPagePokemons, searchQuery]);
@@ -114,29 +116,57 @@ export const PokemonApp = () => {
         const trimmedQuery = query.trim().toLowerCase();
 
         if (!trimmedQuery) {
+            setSearchResults([]);
+            setSearchPage(1);
+            //! Lo de abajo es como funcionaba antes. Claude me da otra cosa
             fetchPagePokemons(currentPage, allPokemonNames);
             return;
         }
 
-        // Filtrar nombres que coincidan
         const matchingNames = allPokemonNames.filter(p =>
             p.name.toLowerCase().includes(trimmedQuery)
         );
 
-        // Fetch detalles de los que coinciden (máximo 100 para no saturar)
-        const toFetch = matchingNames.slice(0, 100);
+        const toFetch = matchingNames.slice(0, 500);
 
         setLoading(true);
+
         try {
             const detailsPromises = toFetch.map(p => fetchPokemonDetails(p.url));
             const results = await Promise.all(detailsPromises);
-            setFilteredPokemons(results);
+
+            setSearchResults(results);
+            setSearchPage(1);
+
+            setFilteredPokemons(results.slice(0, pokemonsPerPage));
+
+            //! Lo de abajo es lo que funcionaba
+            // const detailsPromises = toFetch.map(p => fetchPokemonDetails(p.url));
+            // const results = await Promise.all(detailsPromises);
+            // setFilteredPokemons(results);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setLoading(false);
         }
-    }, [currentPage, allPokemonNames]);
+    }, [
+        // currentPage,
+        allPokemonNames,
+        fetchPagePokemons,
+        pokemonsPerPage
+    ]
+    );
+
+    const handleSearchPageChange = (page: number) => {
+        setSearchPage(page);
+
+        // Calcular slice de resultados
+        const startIndex = (page - 1) * pokemonsPerPage;
+        const endIndex = startIndex + pokemonsPerPage;
+        const pageResults = searchResults.slice(startIndex, endIndex);
+
+        setFilteredPokemons(pageResults);
+    };
 
     return (
         <div className="bg-gradient flex-col gap-4">
@@ -180,13 +210,42 @@ export const PokemonApp = () => {
             }
 
             {/* Pagination */}
-            {!searchQuery && (
+            {/* {!searchQuery && (
                 <Pagination
                     currentPage={currentPage}
                     totalItems={allPokemonNames.length}
                     itemsPerPage={pokemonsPerPage}
                     onPageChange={setCurrentPage}
                 />
+            )} */}
+
+            {/* Paginación */}
+            {!loading && !error && (
+                <>
+                    {searchQuery ? (
+                        // ⭐ Paginación para resultados de búsqueda
+                        <Pagination
+                            currentPage={searchPage}
+                            totalItems={searchResults.length}
+                            itemsPerPage={pokemonsPerPage}
+                            onPageChange={handleSearchPageChange}
+                        />
+                    ) : (
+                        // ⭐ Paginación normal
+                        <Pagination
+                            currentPage={currentPage}
+                            totalItems={allPokemonNames.length}
+                            itemsPerPage={pokemonsPerPage}
+                            onPageChange={setCurrentPage}
+                        />
+                    )}
+                </>
+            )}
+
+            {searchQuery && !loading && (
+                <p className="text-center text-slate-400 text-sm mt-4">
+                    Found {searchResults.length} Pokémon matching "{searchQuery}"
+                </p>
             )}
         </div>
     )
