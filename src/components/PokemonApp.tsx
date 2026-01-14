@@ -103,6 +103,14 @@ export const PokemonApp = () => {
         }
     }, [currentPage, allPokemonNames, fetchPagePokemons, searchQuery]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, [currentPage, searchPage]);
+
+
     const handleRetry = () => {
         if (searchQuery) {
             handleSearch(searchQuery);
