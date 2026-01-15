@@ -172,15 +172,14 @@ export const PokemonApp = () => {
     return (
         <div className="bg-gradient flex-col gap-4">
             {/* Header and SearchBar */}
-            <div className="flex flex-col items-center gap-3">
-                <h1 className="text-4xl font-bold">
-                    Pokédex Explorer
-                </h1>
-                <p className="text-lg font-thin">
-                    Explore and search through hundreds of Pokémon
-                </p>
-                <SearchBar onQuery={handleSearch} />
-            </div>
+            <header className="w-full rounded border-b border-[#283039] p-4 sticky top-0 bg-primary z-10 ">
+                <div className="w-full max-w-480 flex flex-col items-center justify-between gap-4 3xs:flex-row mx-auto">
+                    <h1 className="text-xl font-bold leading-tight tracking-tight 3xs:text-2xl sm:text-3xl">
+                        Pokédex Explorer
+                    </h1>
+                    <SearchBar onQuery={handleSearch} />
+                </div>
+            </header>
 
             {loading && (
                 <div className="bg-gradient flex-col gap-4">
