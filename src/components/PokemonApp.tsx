@@ -172,7 +172,7 @@ export const PokemonApp = () => {
     return (
         <div className="bg-gradient flex-col gap-4">
             {/* Header and SearchBar */}
-            <header className="w-full rounded border-b border-[#283039] p-4 sticky top-0 bg-primary z-10 ">
+            <header className="w-full rounded border-b border-border-gray p-4 sticky top-0 bg-primary z-10 ">
                 <div className="w-full max-w-480 flex flex-col items-center justify-between gap-4 3xs:flex-row mx-auto">
                     <h1 className="text-xl font-bold leading-tight tracking-tight 3xs:text-2xl sm:text-3xl">
                         Pokédex Explorer
@@ -237,6 +237,10 @@ export const PokemonApp = () => {
                     Found {searchResults.length} Pokémon matching "{searchQuery}"
                 </p>
             )}
+
+            <footer className="bg-primary w-full mx-auto py-4 border-t border-t-border-gray text-center">
+                @ Pokedex Explorer
+            </footer>
         </div>
     )
 }
