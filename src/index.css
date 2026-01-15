@@ -4,6 +4,7 @@
   --breakpoint-3xs: 400px;
   --breakpoint-2xs: 450px;
   --breakpoint-xs: 550px;
+  --breakpoint-xxs: 500px;
 
   /* colors */
   --color-primary: #0f172a;

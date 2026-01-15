@@ -7,7 +7,7 @@ interface Props {
 
 export const DataList = ({ pokemons }: Props) => {
     return (
-        <ul className="flex flex-col items-center justify-center gap-4 w-full sm:flex-row sm:flex-wrap sm:px-6">
+        <ul className="p-4 flex flex-col items-center justify-center gap-4 w-full max-w-480 xxs:flex-row xxs:flex-wrap">
             {pokemons.map((pokemon) => (
                 <DataCard
                     key={pokemon.id}
