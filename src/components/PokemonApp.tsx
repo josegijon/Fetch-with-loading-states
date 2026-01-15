@@ -84,25 +84,26 @@ export const PokemonApp = () => {
         }
     };
 
-    // Carga inicial de nombres
+    // Load names
     useEffect(() => {
         fetchPokemonNames();
     }, []);
 
-    // Carga inicial de primera página
+    // Load first page
     useEffect(() => {
         if (allPokemonNames.length > 0 && filteredPokemons.length === 0 && !searchQuery) {
             fetchPagePokemons(1, allPokemonNames);
         }
     }, [allPokemonNames, fetchPagePokemons, filteredPokemons.length, searchQuery]);
 
-    // Cambio de página (solo si no hay búsqueda)
+    // Page change
     useEffect(() => {
         if (allPokemonNames.length > 0 && !searchQuery) {
             fetchPagePokemons(currentPage, allPokemonNames);
         }
     }, [currentPage, allPokemonNames, fetchPagePokemons, searchQuery]);
 
+    // Scroll
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -126,7 +127,6 @@ export const PokemonApp = () => {
         if (!trimmedQuery) {
             setSearchResults([]);
             setSearchPage(1);
-            //! Lo de abajo es como funcionaba antes. Claude me da otra cosa
             fetchPagePokemons(currentPage, allPokemonNames);
             return;
         }
@@ -147,18 +147,12 @@ export const PokemonApp = () => {
             setSearchPage(1);
 
             setFilteredPokemons(results.slice(0, pokemonsPerPage));
-
-            //! Lo de abajo es lo que funcionaba
-            // const detailsPromises = toFetch.map(p => fetchPokemonDetails(p.url));
-            // const results = await Promise.all(detailsPromises);
-            // setFilteredPokemons(results);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setLoading(false);
         }
     }, [
-        // currentPage,
         allPokemonNames,
         fetchPagePokemons,
         pokemonsPerPage
@@ -168,7 +162,6 @@ export const PokemonApp = () => {
     const handleSearchPageChange = (page: number) => {
         setSearchPage(page);
 
-        // Calcular slice de resultados
         const startIndex = (page - 1) * pokemonsPerPage;
         const endIndex = startIndex + pokemonsPerPage;
         const pageResults = searchResults.slice(startIndex, endIndex);
@@ -218,20 +211,10 @@ export const PokemonApp = () => {
             }
 
             {/* Pagination */}
-            {/* {!searchQuery && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalItems={allPokemonNames.length}
-                    itemsPerPage={pokemonsPerPage}
-                    onPageChange={setCurrentPage}
-                />
-            )} */}
-
-            {/* Paginación */}
             {!loading && !error && (
                 <>
                     {searchQuery ? (
-                        // ⭐ Paginación para resultados de búsqueda
+                        // Search
                         <Pagination
                             currentPage={searchPage}
                             totalItems={searchResults.length}
@@ -239,7 +222,7 @@ export const PokemonApp = () => {
                             onPageChange={handleSearchPageChange}
                         />
                     ) : (
-                        // ⭐ Paginación normal
+                        // Normal
                         <Pagination
                             currentPage={currentPage}
                             totalItems={allPokemonNames.length}
