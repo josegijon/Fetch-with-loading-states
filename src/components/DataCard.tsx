@@ -48,6 +48,12 @@ const TEXT_COLORS: Record<string, string> = {
 };
 
 export const DataCard = ({ pokemon }: Props) => {
+    const MAX_STAT = 255;
+
+    const getStatPercentage = (stat: number): number => {
+        return Math.min((stat / MAX_STAT) * 100, 100);
+    };
+
     return (
         <li
             key={pokemon.name}
@@ -107,7 +113,7 @@ export const DataCard = ({ pokemon }: Props) => {
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-bold w-12 text-slate-500 uppercase">HP</span>
                     <div className="stat-bar-bg">
-                        <div className="stat-bar-fill bg-[#4ade80]" style={{ width: `${pokemon.stats.hp}%` }}></div>
+                        <div className="stat-bar-fill bg-[#4ade80]" style={{ width: `${getStatPercentage(pokemon.stats.hp)}%` }}></div>
                     </div>
                     <span className="text-[10px] font-bold w-6 text-right text-slate-300">{pokemon.stats.hp}</span>
                 </div>
@@ -115,15 +121,15 @@ export const DataCard = ({ pokemon }: Props) => {
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-bold w-12 text-slate-500 uppercase">ATK</span>
                     <div className="stat-bar-bg">
-                        <div className="stat-bar-fill bg-[#fb7185]" style={{ width: `${pokemon.stats.attack}%` }}></div>
+                        <div className="stat-bar-fill bg-[#fb7185]" style={{ width: `${getStatPercentage(pokemon.stats.attack)}%` }}></div>
                     </div>
                     <span className="text-[10px] font-bold w-6 text-right text-slate-300">{pokemon.stats.attack}</span>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold w-12 text-slate-500 uppercase">HP</span>
+                    <span className="text-[10px] font-bold w-12 text-slate-500 uppercase">DEF</span>
                     <div className="stat-bar-bg">
-                        <div className="stat-bar-fill bg-[#38bdf8]" style={{ width: `${pokemon.stats.defense}%` }}></div>
+                        <div className="stat-bar-fill bg-[#38bdf8]" style={{ width: `${getStatPercentage(pokemon.stats.defense)}%` }}></div>
                     </div>
                     <span className="text-[10px] font-bold w-6 text-right text-slate-300">{pokemon.stats.defense}</span>
                 </div>
