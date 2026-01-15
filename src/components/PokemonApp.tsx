@@ -6,6 +6,7 @@ import { LoadingSkeleton } from "./LoadingSkeleton";
 import { ErrorMessage } from "./ErrorMessage";
 import { SearchBar } from './SearchBar';
 import { Pagination } from "./Pagination";
+import { scrollToTop } from "../utils/scrollUtils";
 
 export const PokemonApp = () => {
 
@@ -105,10 +106,7 @@ export const PokemonApp = () => {
 
     // Scroll
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        scrollToTop();
     }, [currentPage, searchPage]);
 
 
