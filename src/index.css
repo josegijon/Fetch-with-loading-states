@@ -1,7 +1,19 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-3xs: 400px;
+  --breakpoint-2xs: 450px;
+  --breakpoint-xs: 550px;
+  --breakpoint-xxs: 500px;
+
+  /* colors */
+  --color-primary: #0f172a;
+  --color-border-gray: #283039;
+  --color-bg-card: #1e293b;
+}
+
 .bg-gradient {
-  @apply bg-[#0f172a] min-h-screen flex items-center justify-center p-4 text-[#f1f5f9];
+  @apply bg-primary min-h-screen flex items-center justify-center text-[#f1f5f9];
 }
 
 .material-symbols-outlined {

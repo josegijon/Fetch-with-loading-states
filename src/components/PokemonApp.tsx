@@ -169,29 +169,27 @@ export const PokemonApp = () => {
         setFilteredPokemons(pageResults);
     };
 
-    return (
-        <div className="bg-gradient flex-col gap-4">
-            {/* Header and SearchBar */}
-            <div className="flex flex-col items-center gap-3">
-                <h1 className="text-4xl font-bold">
-                    Pokédex Explorer
-                </h1>
-                <p className="text-lg font-thin">
-                    Explore and search through hundreds of Pokémon
-                </p>
-                <SearchBar onQuery={handleSearch} />
-            </div>
 
-            {loading && (
-                <div className="bg-gradient flex-col gap-4">
-                    <LoadingSkeleton />
+    return (
+        <div className="bg-gradient flex-col gap-4 w-full">
+            {/* Header and SearchBar */}
+            <header className="w-full rounded border-b border-border-gray p-4 sticky top-0 bg-primary z-10 ">
+                <div className="w-full max-w-480 flex flex-col items-center justify-between gap-4 3xs:flex-row mx-auto">
+                    <h1 className="text-xl font-bold leading-tight tracking-tight 3xs:text-2xl sm:text-3xl">
+                        Pokédex Explorer
+                    </h1>
+                    <SearchBar onQuery={handleSearch} />
                 </div>
+            </header>
+
+            {/* Loading layout */}
+            {loading && (
+                <LoadingSkeleton />
             )}
 
+            {/* Error layout */}
             {error && (
-                <div className="bg-gradient">
-                    <ErrorMessage message={error} onRetry={handleRetry} />
-                </div>
+                <ErrorMessage message={error} onRetry={handleRetry} />
             )}
 
             {/* List */}
@@ -238,6 +236,10 @@ export const PokemonApp = () => {
                     Found {searchResults.length} Pokémon matching "{searchQuery}"
                 </p>
             )}
+
+            <footer className="bg-primary w-full mx-auto py-4 border-t border-t-border-gray text-center">
+                @ Pokedex Explorer
+            </footer>
         </div>
     )
 }
