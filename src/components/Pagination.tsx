@@ -25,9 +25,9 @@ export const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange
             <button
                 onClick={handlePrevious}
                 disabled={currentPage === 1}
-                className="..."
+                className="material-symbols-outlined w-10 flex items-center justify-center rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 text-slate-300 hover:bg-white/10 transition ease-in-out duration-300 cursor-pointer disabled:cursor-default disabled:bg-transparent"
             >
-                ← Previous
+                chevron_left
             </button>
 
             <span className="text-slate-400">
@@ -37,9 +37,9 @@ export const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange
             <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className="..."
+                className="material-symbols-outlined w-10 flex items-center justify-center rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 text-slate-300 hover:bg-white/10 transition ease-in-out duration-300 cursor-pointer"
             >
-                Next →
+                chevron_right
             </button>
         </div>
     );
