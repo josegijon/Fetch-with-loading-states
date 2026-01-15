@@ -21,7 +21,7 @@ export const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange
     };
 
     return (
-        <div className="flex items-center justify-center gap-2 mt-8">
+        <div className="flex items-center justify-center gap-2 py-4">
             <button
                 onClick={handlePrevious}
                 disabled={currentPage === 1}
