@@ -182,14 +182,14 @@ export const PokemonApp = () => {
                 </div>
             </header>
 
+            {/* Loading layout */}
             {loading && (
                 <LoadingSkeleton />
             )}
 
+            {/* Error layout */}
             {error && (
-                <div className="bg-gradient">
-                    <ErrorMessage message={error} onRetry={handleRetry} />
-                </div>
+                <ErrorMessage message={error} onRetry={handleRetry} />
             )}
 
             {/* List */}
