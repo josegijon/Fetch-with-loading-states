@@ -1,7 +1,7 @@
 
 export const SkeletonCard = () => {
     return (
-        <li className="group flex flex-col bg-[#1e293b] gap-3 border border-white/5 rounded-2xl p-5 shadow-xl transition duration-500 ease-in-out sm:min-w-87.5 sm:max-w-95 sm:flex-1
+        <li className="group w-full flex flex-col bg-bg-card gap-3 border border-white/5 rounded-2xl p-5 shadow-xl transition duration-500 ease-in-out sm:min-w-87.5 sm:max-w-95 sm:flex-1
                      hover:shadow-2xl hover:border-white/20"
         >
 
