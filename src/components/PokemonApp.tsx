@@ -8,6 +8,7 @@ import { SearchBar } from './SearchBar';
 import { Pagination } from "./Pagination";
 import { scrollToTop } from "../utils/scrollUtils";
 import { PokemonHeader } from "./PokemonHeader";
+import { PokemonFooter } from "./PokemonFooter";
 
 export const PokemonApp = () => {
 
@@ -229,9 +230,8 @@ export const PokemonApp = () => {
                 </p>
             )}
 
-            <footer className="bg-primary w-full mx-auto py-4 border-t border-t-border-gray text-center">
-                @ Pokedex Explorer
-            </footer>
+            {/* Footer */}
+            <PokemonFooter />
         </div>
     )
 }
