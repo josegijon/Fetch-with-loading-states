@@ -7,6 +7,7 @@ import { ErrorMessage } from "./ErrorMessage";
 import { SearchBar } from './SearchBar';
 import { Pagination } from "./Pagination";
 import { scrollToTop } from "../utils/scrollUtils";
+import { PokemonHeader } from "./PokemonHeader";
 
 export const PokemonApp = () => {
 
@@ -171,14 +172,7 @@ export const PokemonApp = () => {
     return (
         <div className="bg-gradient flex-col gap-4 w-full">
             {/* Header and SearchBar */}
-            <header className="w-full rounded border-b border-border-gray p-4 sticky top-0 bg-primary z-10 ">
-                <div className="w-full max-w-480 flex flex-col items-center justify-between gap-4 3xs:flex-row mx-auto">
-                    <h1 className="text-xl font-bold leading-tight tracking-tight 3xs:text-2xl sm:text-3xl">
-                        Pokédex Explorer
-                    </h1>
-                    <SearchBar onQuery={handleSearch} />
-                </div>
-            </header>
+            <PokemonHeader onSearch={handleSearch} />
 
             {/* Loading layout */}
             {loading && (
