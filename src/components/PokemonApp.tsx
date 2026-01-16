@@ -4,7 +4,6 @@ import type { PokemonBasic, PokemonWithDetails } from "../types/pokemon.types";
 import { fetchPokemonDetails } from "../utils/pokemonApi";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { ErrorMessage } from "./ErrorMessage";
-import { SearchBar } from './SearchBar';
 import { Pagination } from "./Pagination";
 import { scrollToTop } from "../utils/scrollUtils";
 import { PokemonHeader } from "./PokemonHeader";
@@ -225,7 +224,7 @@ export const PokemonApp = () => {
             )}
 
             {searchQuery && !loading && (
-                <p className="text-center text-slate-400 text-sm mt-4">
+                <p className="text-center text-slate-400 pb-4">
                     Found {searchResults.length} Pokémon matching "{searchQuery}"
                 </p>
             )}
