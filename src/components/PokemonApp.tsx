@@ -12,7 +12,7 @@ import { PokemonFooter } from "./PokemonFooter";
 export const PokemonApp = () => {
 
     const [allPokemonNames, setAllPokemonNames] = useState<PokemonBasic[]>([]);
-    const [allPokemons, setAllPokemons] = useState<PokemonWithDetails[]>([]);
+    // const [allPokemons, setAllPokemons] = useState<PokemonWithDetails[]>([]);
     const [filteredPokemons, setFilteredPokemons] = useState<PokemonWithDetails[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -76,7 +76,7 @@ export const PokemonApp = () => {
             // Merge cache + new
             const allPagePokemons = [...fromCache, ...newPokemons].sort((a, b) => a.id - b.id);
 
-            setAllPokemons(allPagePokemons);
+            // setAllPokemons(allPagePokemons);
             setFilteredPokemons(allPagePokemons);
 
         } catch (err) {

@@ -37,7 +37,7 @@ export const SearchBar = ({ placeholder = 'Search Pokemon', onQuery }: Props) =>
     return (
         <div className="flex flex-1 justify-center max-w-md">
             <label className="flex flex-col w-full h-10">
-                <div className="group flex w-full flex-1 items-stretch rounded-lg h-full bg-[#283039]">
+                <div className="group flex w-full flex-1 items-stretch rounded-lg h-full bg-border-gray">
                     <div className="text-[9cabba] flex items-center justify-center pl-4 rounded-l-lg">
                         <span className="material-symbols-outlined text-xl!">search</span>
                     </div>
