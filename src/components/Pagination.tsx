@@ -37,7 +37,8 @@ export const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange
             <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className="material-symbols-outlined w-10 flex items-center justify-center rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 text-slate-300 hover:bg-white/10 transition ease-in-out duration-300 cursor-pointer"
+                className="material-symbols-outlined w-10 flex items-center justify-center rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 text-slate-300 hover:bg-white/10 transition ease-in-out duration-300 cursor-pointer
+                disabled:cursor-default disabled:bg-transparent"
             >
                 chevron_right
             </button>
