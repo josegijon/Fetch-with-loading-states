@@ -3,11 +3,9 @@ import type { PokemonBasic, PokemonWithDetails } from "../types/pokemon.types";
 import { fetchPokemonDetails } from "../utils/pokemonApi";
 import { POKEMON_PER_PAGE } from "../constants/pokemonApp";
 
-export const usePokemonData = (
-    setFilteredPokemons: React.Dispatch<
-        React.SetStateAction<PokemonWithDetails[]>
-    >
-) => {
+type PublishPokemons = (pokemons: PokemonWithDetails[]) => void;
+
+export const usePokemonData = (publishPokemons: PublishPokemons) => {
     const [allPokemonNames, setAllPokemonNames] = useState<PokemonBasic[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -65,8 +63,7 @@ export const usePokemonData = (
             // Merge cache + new
             const allPagePokemons = [...fromCache, ...newPokemons].sort((a, b) => a.id - b.id);
 
-            setFilteredPokemons(allPagePokemons);
-
+            publishPokemons(allPagePokemons);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
         } finally {

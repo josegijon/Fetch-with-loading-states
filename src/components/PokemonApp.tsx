@@ -13,16 +13,20 @@ import { POKEMON_PER_PAGE } from "../constants/pokemonApp";
 
 export const PokemonApp = () => {
 
-    // const [allPokemons, setAllPokemons] = useState<PokemonWithDetails[]>([]);
     const [filteredPokemons, setFilteredPokemons] = useState<PokemonWithDetails[]>([]);
+    const [searchResults, setSearchResults] = useState<PokemonWithDetails[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchPage, setSearchPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [searchLoading, setSearchLoading] = useState(false);
     const [searchError, setSearchError] = useState<string | null>(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchResults, setSearchResults] = useState<PokemonWithDetails[]>([]);
-    const [searchPage, setSearchPage] = useState(1);
 
-    const { allPokemonNames, loading, error, fetchPokemonNames, fetchPagePokemons } = usePokemonData(setFilteredPokemons);
+    const publishPokemons = (pokemons: PokemonWithDetails[]) => {
+        setFilteredPokemons(pokemons);
+    };
+
+
+    const { allPokemonNames, loading, error, fetchPokemonNames, fetchPagePokemons } = usePokemonData(publishPokemons);
 
     const loadingState = loading || searchLoading;
     const errorState = error || searchError;
