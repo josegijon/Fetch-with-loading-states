@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { DataList } from "./DataList"
-import type { PokemonBasic, PokemonWithDetails } from "../types/pokemon.types";
+import type { PokemonWithDetails } from "../types/pokemon.types";
 import { fetchPokemonDetails } from "../utils/pokemonApi";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { ErrorMessage } from "./ErrorMessage";
@@ -8,83 +8,24 @@ import { Pagination } from "./Pagination";
 import { scrollToTop } from "../utils/scrollUtils";
 import { PokemonHeader } from "./PokemonHeader";
 import { PokemonFooter } from "./PokemonFooter";
+import { usePokemonData } from "../hooks/usePokemonData";
+import { POKEMON_PER_PAGE } from "../constants/pokemonApp";
 
 export const PokemonApp = () => {
 
-    const [allPokemonNames, setAllPokemonNames] = useState<PokemonBasic[]>([]);
     // const [allPokemons, setAllPokemons] = useState<PokemonWithDetails[]>([]);
     const [filteredPokemons, setFilteredPokemons] = useState<PokemonWithDetails[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [searchError, setSearchError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [pokemonsPerPage] = useState(20);
-    const [pokemonCache, setPokemonCache] = useState<Map<string, PokemonWithDetails>>(new Map());
     const [searchResults, setSearchResults] = useState<PokemonWithDetails[]>([]);
     const [searchPage, setSearchPage] = useState(1);
 
-    const fetchPokemonNames = async () => {
-        try {
-            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=3000');
+    const { allPokemonNames, loading, error, fetchPokemonNames, fetchPagePokemons } = usePokemonData(setFilteredPokemons);
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            setAllPokemonNames(data.results);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unknown error');
-        }
-    };
-
-    const fetchPagePokemons = async (page: number, pokemonList: PokemonBasic[]) => {
-        setLoading(true);
-
-        try {
-            // Calculate indexes of the current page
-            const startIndex = (page - 1) * pokemonsPerPage;
-            const endIndex = startIndex + pokemonsPerPage;
-            const pagePokemons = pokemonList.slice(startIndex, endIndex);
-
-            // Separate those already cached from those that are missing
-            const toFetch: PokemonBasic[] = [];
-            const fromCache: PokemonWithDetails[] = [];
-
-            pagePokemons.forEach(pokemon => {
-                if (pokemonCache.has(pokemon.name)) {
-                    fromCache.push(pokemonCache.get(pokemon.name)!);
-                } else {
-                    toFetch.push(pokemon);
-                }
-            });
-
-            // Fetch only the missing ones
-            let newPokemons: PokemonWithDetails[] = [];
-
-            if (toFetch.length > 0) {
-                const detailsPromises = toFetch.map(p => fetchPokemonDetails(p.url));
-                newPokemons = await Promise.all(detailsPromises);
-
-                // Save to cache
-                const newCache = new Map(pokemonCache);
-                newPokemons.forEach(p => newCache.set(p.name, p));
-                setPokemonCache(newCache);
-            }
-
-            // Merge cache + new
-            const allPagePokemons = [...fromCache, ...newPokemons].sort((a, b) => a.id - b.id);
-
-            // setAllPokemons(allPagePokemons);
-            setFilteredPokemons(allPagePokemons);
-
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unknown error');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const loadingState = loading || searchLoading;
+    const errorState = error || searchError;
 
     // Load names
     useEffect(() => {
@@ -136,7 +77,7 @@ export const PokemonApp = () => {
 
         const toFetch = matchingNames.slice(0, 500);
 
-        setLoading(true);
+        setSearchLoading(true);
 
         try {
             const detailsPromises = toFetch.map(p => fetchPokemonDetails(p.url));
@@ -145,24 +86,24 @@ export const PokemonApp = () => {
             setSearchResults(results);
             setSearchPage(1);
 
-            setFilteredPokemons(results.slice(0, pokemonsPerPage));
+            setFilteredPokemons(results.slice(0, POKEMON_PER_PAGE));
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unknown error');
+            setSearchError(err instanceof Error ? err.message : 'Unknown error');
         } finally {
-            setLoading(false);
+            setSearchLoading(false);
         }
     }, [
         allPokemonNames,
         fetchPagePokemons,
-        pokemonsPerPage
+        POKEMON_PER_PAGE
     ]
     );
 
     const handleSearchPageChange = (page: number) => {
         setSearchPage(page);
 
-        const startIndex = (page - 1) * pokemonsPerPage;
-        const endIndex = startIndex + pokemonsPerPage;
+        const startIndex = (page - 1) * POKEMON_PER_PAGE;
+        const endIndex = startIndex + POKEMON_PER_PAGE;
         const pageResults = searchResults.slice(startIndex, endIndex);
 
         setFilteredPokemons(pageResults);
@@ -175,24 +116,24 @@ export const PokemonApp = () => {
             <PokemonHeader onSearch={handleSearch} />
 
             {/* Loading layout */}
-            {loading && (
+            {loadingState && (
                 <LoadingSkeleton />
             )}
 
             {/* Error layout */}
-            {error && (
-                <ErrorMessage message={error} onRetry={handleRetry} />
+            {errorState && (
+                <ErrorMessage message={error || 'An error occurred'} onRetry={handleRetry} />
             )}
 
             {/* List */}
-            {!error && !loading && (
+            {!errorState && !loadingState && (
                 <DataList
                     pokemons={filteredPokemons}
                 />
             )}
 
             {/* Message without results */}
-            {filteredPokemons.length === 0 && !loading &&
+            {filteredPokemons.length === 0 && !loadingState &&
                 (
                     <p className="text-center text-slate-400 mt-8">
                         No Pokémon found matching "{searchQuery}"
@@ -201,14 +142,14 @@ export const PokemonApp = () => {
             }
 
             {/* Pagination */}
-            {!loading && !error && (
+            {!loadingState && !errorState && (
                 <>
                     {searchQuery ? (
                         // Search
                         <Pagination
                             currentPage={searchPage}
                             totalItems={searchResults.length}
-                            itemsPerPage={pokemonsPerPage}
+                            itemsPerPage={POKEMON_PER_PAGE}
                             onPageChange={handleSearchPageChange}
                         />
                     ) : (
@@ -216,14 +157,14 @@ export const PokemonApp = () => {
                         <Pagination
                             currentPage={currentPage}
                             totalItems={allPokemonNames.length}
-                            itemsPerPage={pokemonsPerPage}
+                            itemsPerPage={POKEMON_PER_PAGE}
                             onPageChange={setCurrentPage}
                         />
                     )}
                 </>
             )}
 
-            {searchQuery && !loading && (
+            {searchQuery && !loadingState && (
                 <p className="text-center text-slate-400 pb-4">
                     Found {searchResults.length} Pokémon matching "{searchQuery}"
                 </p>
