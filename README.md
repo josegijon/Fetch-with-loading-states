@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# Pokedex Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## 📚 Table of Contents
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- [Project Description](#Project-Description)
+- [Main Features](#main-features)
+- [What I Learned](#what-i-learned)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📝 Project Description
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Pokedex Explorer** is a responsive web application built with **React and TypeScript** that allows users to browse, search, and paginate through Pokémon data fetched from **PokeAPI**.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+This project focuses on clean architecture, separation of concerns, and efficient data fetching, including caching and optimized search behavior. It was developed as a practical exercise to improve React patterns, custom hooks, and real-world state management. 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⭐ Main Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Fetches Pokémon data from PokeAPI
+- Clear UI states:
+  - Loading (skeleton)
+  - Error
+  - Success
+- Paginated Pokémon List
+- Search by Pokémon name
+- Search pagination independent from main pagination
+- Client-side cache to avoid unnecessary re-fetching
+- Debounced search input
+- Retry mechanism on failed request
+- Responsive layout with Tailwind CSS
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🎯 What I Learned
+
+- Fetching and handling external APIs using **async / await**
+- Managing complex UI states (loading, error, success)
+- Using `try / catch / finally` for robust error handling
+- Optimizing performance with:
+  - `useCallback()`
+  - Client-side caching
+  - Debounced user input
+- Splitting logic using **custom hooks**
+- Pagination data efficiently
+- Structuring a scalable React project
+- Creating reusable and strongly typed components with TypeScript
+- Defining and organizing shared types and constants
+- Improving UX with loading skeletons and error recovery
+- Applying clean code principles
+- Building responsive UIs using Tailwind CSS
+- Customizing Tailwind via `@theme` in `index.css`
+
+---
+
+## 🧰 Tech Stack
+
+- **Vite**
+- **React + TypeScript**
+- **Tailwind CSS**
+- **Git**
+- **PokeAPI**
+
+---
+
+## 📸 Screenshots
+
+![Pokedex-explorer](/src/assets/images/image-1.png)
+![Pokedex-explorer-loading](/src/assets/images/image.png)
